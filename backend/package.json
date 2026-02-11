@@ -1,0 +1,20 @@
+{
+  "name": "ai-fitness-backend",
+  "version": "1.0.0",
+  "description": "AI Fitness App Backend",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "Smayan Singh",
+  "license": "ISC",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.93.3",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.4",
+    "express": "^4.18.2",
+    "groq-sdk": "^0.5.0"
+  }
+}

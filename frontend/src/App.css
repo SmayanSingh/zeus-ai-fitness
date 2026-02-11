@@ -1,0 +1,551 @@
+/* =========================
+   THEME VARIABLES
+========================= */
+
+:root {
+  --bg: #f8fafc;
+  --card-bg: #ffffff;
+  --text: #0f172a;
+  --muted: #64748b;
+  --border: #e5e7eb;
+  --primary: #2563eb;
+}
+
+body.dark {
+  --bg: #0f172a;
+  --card-bg: #020617;
+  --text: #e5e7eb;
+  --muted: #94a3b8;
+  --border: #1e293b;
+  --primary: #38bdf8;
+}
+
+/* =========================
+   DESIGN TOKENS (KEEPING YOURS)
+========================= */
+:root {
+  --white: #F3F4F5;
+  --black: #000000;
+  --red: #E30220;
+}
+
+/* 🔑 DARK MODE OVERRIDES (ONLY ADDITION) */
+body.dark {
+  --white: #020617;
+  --black: #e5e7eb;
+}
+
+/* =========================
+   GLOBAL RESET
+========================= */
+* {
+  box-sizing: border-box;
+}
+
+a,
+a:visited,
+a:hover,
+a:active {
+  color: inherit;
+  text-decoration: none;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg); /* 🔑 changed */
+  color: var(--black);
+  font-family: Inter, system-ui, -apple-system, sans-serif;
+}
+
+/* =========================
+   AUTH SCREEN
+========================= */
+.auth-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 360px;
+  gap: 10px; /* 👈 exact 1px gap */
+}
+
+/* =========================
+   APP SHELL
+========================= */
+.app-shell {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* =========================
+   APP CONTAINER
+========================= */
+.app-container {
+  width: 100%;
+  max-width: 420px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+@media (min-width: 900px) {
+  .app-container {
+    max-width: 520px;
+    padding: 24px;
+  }
+}
+
+/* =========================
+   HEADER
+========================= */
+.header {
+  width: 100%;
+  background: var(--white);
+  border: 2px solid var(--red);
+  border-radius: 14px;
+  padding: 12px 14px;
+}
+
+.header-user {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.header-username {
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--black);
+  max-width: 65%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* =========================
+   LOGOUT BUTTON
+========================= */
+.btn-logout {
+  width: auto;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--white);
+  border: 2px solid var(--black);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--black);
+  cursor: pointer;
+}
+
+.btn-logout:hover {
+  border-color: var(--red);
+  color: var(--red);
+}
+
+/* =========================
+   TOP TABS
+========================= */
+.top-tabs {
+  display: flex;
+  gap: 8px;
+  background: var(--red);
+  padding: 8px;
+  border-radius: 16px;
+  border: 2px solid var(--black);
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 14px 10px;
+  border-radius: 12px;
+  background: transparent;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  text-align: center;
+  border: 2px solid var(--black);
+  cursor: pointer;
+}
+
+.tab-btn:not(.active):hover {
+  background: var(--white);
+  color: var(--black);
+}
+
+.tab-btn.active {
+  background: var(--white);
+  color: var(--black);
+}
+
+/* =========================
+   CARDS
+========================= */
+.card {
+  background: var(--white);
+  border: 2px solid var(--red);
+  border-radius: 14px;
+  padding: 16px;
+  color: var(--black);
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+/* =========================
+   INPUTS
+========================= */
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  background: var(--white);
+  border: 2px solid var(--black);
+  color: var(--black);
+  font-size: 14px;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+.btn-primary{
+  background: var(--white);
+  color: var(--black) !important;
+  border: 2px solid var(--black);
+  width: 100%;
+  padding: 14px;
+}
+
+.btn-primary:hover {
+  border-color: var(--red);
+}
+
+.btn-secondary {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  background: var(--white);
+  border: 2px solid var(--black);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-primary:hover,
+.btn-secondary:hover {
+  border-color: var(--red);
+}
+
+/* =========================
+   SET ROW
+========================= */
+.set-row {
+  display: flex;
+  gap: 8px;
+}
+
+.set-row input {
+  flex: 1;
+}
+
+/* =========================
+   TEXT
+========================= */
+.text-muted {
+  color: var(--muted); /* 🔑 changed */
+}
+
+/* =========================
+   MODAL
+========================= */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.modal {
+  width: 90%;
+  max-width: 420px;
+}
+
+/* =========================
+   FOOTER
+========================= */
+.footer-card {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.footer-text {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.footer-link {
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+
+/* =========================
+   EDIT BUTTON (THEME SAFE)
+========================= */
+.btn-edit {
+  padding: 4px 10px;
+  font-size: 12px;
+  border-radius: 999px;
+  border: 2px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-edit:hover {
+  border-color: var(--red);
+  color: var(--red);
+}
+
+
+/* =========================
+   CARD SPACING (CLEAN STACK)
+========================= */
+.card {
+  margin-bottom: 16px;
+}
+
+/* Optional: remove extra gap after footer */
+.footer-card {
+  margin-bottom: 0;
+}
+
+/* =========================
+   CARD ENTRANCE ANIMATION
+========================= */
+@keyframes cardFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card {
+  animation: cardFadeUp 0.35s ease-out;
+}
+
+/* =========================
+   MOBILE SPACING TIGHTENING
+========================= */
+@media (max-width: 480px) {
+  .app-container {
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .card {
+    margin-bottom: 12px;
+    padding: 14px;
+  }
+
+  .top-tabs {
+    margin-bottom: 12px;
+  }
+}
+
+/* Space between workout split dropdown & generate button */
+.start-workout-card select {
+  margin-bottom: 12px;
+}
+
+.minimal-manual {
+  padding: 18px;
+}
+
+.manual-header h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+.manual-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.manual-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.step-number {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.08);
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.manual-step p {
+  margin: 0;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+/* =========================
+   STREAK FIRE ANIMATION
+========================= */
+
+.streak-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.streak-fire {
+  font-size: 34px;              /* 🔥 always big */
+  display: inline-block;
+  animation: fireFlicker 1.4s infinite ease-in-out;
+  transform-origin: center bottom;
+}
+
+.streak-count {
+  font-size: 26px;
+  font-weight: 700;
+}
+
+/* Fire flicker animation */
+@keyframes fireFlicker {
+  0% {
+    transform: scale(1) rotate(-2deg);
+    filter: brightness(1);
+  }
+  25% {
+    transform: scale(1.05) rotate(2deg);
+    filter: brightness(1.1);
+  }
+  50% {
+    transform: scale(0.97) rotate(-1deg);
+    filter: brightness(0.95);
+  }
+  75% {
+    transform: scale(1.07) rotate(1deg);
+    filter: brightness(1.15);
+  }
+  100% {
+    transform: scale(1) rotate(-2deg);
+    filter: brightness(1);
+  }
+}
+\/* =========================
+   SET ADD ANIMATION
+========================= */
+
+.animate-set {
+  animation: setPopIn 0.22s ease-out;
+}
+
+@keyframes setPopIn {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* =========================
+   SET DELETE ANIMATION
+========================= */
+
+.set-remove {
+  animation: setShrinkOut 0.16s ease-in forwards;
+}
+
+@keyframes setShrinkOut {
+  to {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+}
+
+/* =========================
+   SET ADD (SMOOTH EXPAND)
+========================= */
+
+.set-enter {
+  overflow: hidden;
+  animation: setExpand 0.25s ease-out;
+}
+
+@keyframes setExpand {
+  from {
+    opacity: 0;
+    max-height: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    max-height: 80px;
+    transform: scale(1);
+  }
+}
+
+.auth-card {
+  margin: 0 auto;  
+}
+.auth-card input,
+.auth-card button {
+  position: relative;
+  z-index: 1;
+}
+
+.auth-card input:not(:first-of-type),
+.auth-card button {
+  margin-top: 11px; /* 👈 true visual separation */
+}
+
+
+/* =========================
+   BUTTON SPINNER
+========================= */
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top: 2px solid #ffffff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
