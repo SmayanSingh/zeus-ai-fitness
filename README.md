@@ -98,3 +98,32 @@ GROQ_API_KEY=
 SUPABASE_URL=
 SUPABASE_SERVICE_ROLE_KEY=
 FRONTEND_URL=
+```
+
+### Frontend
+
+```env
+VITE_API_URL=
+```
+
+---
+
+## 📈 Scaling & Product Roadmap
+
+- Subscription layer (SaaS monetization)
+- AI diet generator
+- Advanced analytics dashboard
+- PWA install capability
+- Custom domain
+- Usage tracking & user analytics
+
+---
+
+## 👨‍💻 Author
+
+**Smayan Singh**  
+Computer Science Engineer  
+AI & Full Stack Developer  
+
+LinkedIn:  
+https://www.linkedin.com/in/smayansingh/
