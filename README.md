@@ -1,6 +1,6 @@
 🔥 Zeus AI Fitness
 
-Production-ready AI-powered workout generation SaaS built with a full-stack architecture using React, Node.js, Groq LLM, Supabase, Vercel and Render.
+A production-deployed AI-powered workout SaaS that dynamically generates structured training plans using an LLM-backed architecture.
 
 🌐 Live App
 https://zeus-ai-fitness-frontend.vercel.app/
@@ -18,6 +18,7 @@ Most beginner fitness users struggle with:
 	•	Personalized workout generation
 
 Zeus AI Fitness solves this using an LLM-powered backend that dynamically generates structured workouts while tracking user performance and training history.
+
 
 
 🏗 System Architecture
