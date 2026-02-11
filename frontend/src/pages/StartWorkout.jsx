@@ -244,22 +244,34 @@ export default function StartWorkout({
                   )}
 
                   {ex.sets.map((set, sIdx) => (
-                    <div
-                      key={`${idx}-set-${sIdx}`}
-                      className="set-row"
-                      style={{ marginTop: 6 }}
-                    >
-                      <input
-                        type="number"
-                        value={set.reps}
-                        onChange={(e) =>
-                          updateSet(idx, sIdx, "reps", e.target.value)
-                        }
-                      />
+  <div
+    key={`${idx}-set-${sIdx}`}
+    className="set-row"
+    style={{ marginTop: 6, display: "flex", gap: 8 }}
+  >
+    <input
+      type="number"
+      placeholder="Weight (kg)"
+      value={set.weight}
+      onChange={(e) =>
+        updateSet(idx, sIdx, "weight", e.target.value)
+      }
+      style={{ width: "90px" }}
+    />
 
-                      <button onClick={() => deleteSet(idx, sIdx)}>❌</button>
-                    </div>
-                  ))}
+    <input
+      type="number"
+      placeholder="Reps"
+      value={set.reps}
+      onChange={(e) =>
+        updateSet(idx, sIdx, "reps", e.target.value)
+      }
+      style={{ width: "70px" }}
+    />
+
+    <button onClick={() => deleteSet(idx, sIdx)}>❌</button>
+  </div>
+))}
 
                   <button onClick={() => addSet(idx)}>➕ Add Set</button>
                 </div>
