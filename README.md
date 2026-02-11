@@ -12,10 +12,10 @@ https://zeus-ai-backend.onrender.com/
 🚀 Problem
 
 Most beginner fitness users struggle with:
-	•	Structured workout planning
-	•	Progressive overload tracking
-	•	Consistency tracking
-	•	Personalized workout generation
+•	Structured workout planning
+•	Progressive overload tracking
+•	Consistency tracking
+•	Personalized workout generation
 
 Zeus AI Fitness solves this using an LLM-powered backend that dynamically generates structured workouts while tracking user performance and training history.
 
@@ -106,4 +106,6 @@ VITE_API_URL=
 
 Smayan Singh
 Computer Science Engineer
-AI + Full Stack Developer
+AI & Full Stack Developer
+
+LinkedIn: https://www.linkedin.com/in/smayansingh/
