@@ -3,7 +3,9 @@
 
 A production-deployed AI-powered workout SaaS that dynamically generates structured training plans using an LLM-backed full-stack architecture.
 
-![Zeus AI Fitness Screenshot](./Screenshot.png)
+<p align="center">
+  <img src="./Screenshot.png" alt="Zeus AI Fitness Screenshot" width="500"/>
+</p>
 
 🌍 **Live App**  
 https://zeus-ai-fitness-frontend.vercel.app/
