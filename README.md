@@ -8,7 +8,6 @@ https://zeus-ai-fitness-frontend.vercel.app/
 ⚙ Backend API
 https://zeus-ai-backend.onrender.com/
 
-⸻
 
 🚀 Problem
 
@@ -20,7 +19,6 @@ Most beginner fitness users struggle with:
 
 Zeus AI Fitness solves this using an LLM-powered backend that dynamically generates structured workouts while tracking user performance and training history.
 
-⸻
 
 🏗 System Architecture
 
@@ -36,7 +34,7 @@ Backend (Render)
 	•	Express
 	•	Groq LLM integration
 	•	Secure environment configuration
-	•	CORS production setup
+	•	Production CORS setup
 
 Database
 	•	Supabase (PostgreSQL)
@@ -45,41 +43,42 @@ Database
 
 The system is fully environment-configured for local development and production deployment.
 
-⸻
 
 ✨ Key Engineering Features
 	•	AI workout generation by muscle split
 	•	A/B workout rotation logic
 	•	Progressive overload calculation from historical data
 	•	Exercise-level history modal
-	•	Streak logic with controlled rest-day allowance
+	•	Streak system with controlled rest-day allowance
 	•	Environment-based API configuration
 	•	Production CORS handling
-	•	Secure .env separation for frontend and backend
+	•	Secure .env separation
 	•	Fully deployed full-stack architecture
 
-⸻
 
 🛠 Tech Stack
 
 Frontend
+
 React · Vite · CSS · Framer Motion
 
 Backend
+
 Node.js · Express · Groq SDK · dotenv
 
 Database
+
 Supabase
 
 Deployment
+
 Vercel (Frontend)
 Render (Backend)
 
-⸻
 
 🔐 Environment Variables
 
-Backend:
+Backend
 
 PORT=
 GROQ_API_KEY=
@@ -87,12 +86,11 @@ SUPABASE_URL=
 SUPABASE_SERVICE_ROLE_KEY=
 FRONTEND_URL=
 
-Frontend:
+Frontend
 
 VITE_API_URL=
 
 
-⸻
 
 📈 Scaling & Product Roadmap
 	•	Subscription layer (SaaS monetization)
@@ -102,7 +100,6 @@ VITE_API_URL=
 	•	Custom domain
 	•	Usage tracking & user analytics
 
-⸻
 
 👨‍💻 Author
 
