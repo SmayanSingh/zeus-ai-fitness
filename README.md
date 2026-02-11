@@ -70,6 +70,22 @@ The system is fully environment-configured for both local development and produc
 
 ---
 
+## 🧠 Architecture Flow Diagram
+
+```mermaid
+flowchart LR
+    U[User] --> F[React Frontend - Vercel]
+    F -->|POST /get-workout| B[Node.js Backend - Render]
+    B -->|Generate Workout Prompt| LLM[Groq LLM]
+    B -->|Save History| DB[(Supabase PostgreSQL)]
+    LLM --> B
+    DB --> B
+    B --> F
+    F --> U
+```
+
+---
+
 ## 🛠 Tech Stack
 
 ### Frontend
