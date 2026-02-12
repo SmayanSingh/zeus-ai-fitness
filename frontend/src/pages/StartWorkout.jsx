@@ -3,6 +3,42 @@ import { supabase } from "../supabase";
 import { WORKOUT_SPLITS } from "../constants/workoutSplits";
 import ExerciseHistoryModal from "../components/ExerciseHistoryModal";
 
+import {
+  DndContext,
+  closestCenter,
+  useSensor,
+  useSensors,
+  PointerSensor,
+} from "@dnd-kit/core";
+
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+  arrayMove,
+  useSortable,
+} from "@dnd-kit/sortable";
+
+import { CSS } from "@dnd-kit/utilities";
+
+/* =========================
+   SORTABLE WRAPPER
+========================= */
+function SortableExercise({ id, children }) {
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
+  return (
+    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
+      {children}
+    </div>
+  );
+}
+
 export default function StartWorkout({
   user,
   lastWorkout,
@@ -14,9 +50,31 @@ export default function StartWorkout({
   const [workoutType, setWorkoutType] = useState("legs");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(null);
-  const [addingExercise, setAddingExercise] = useState(false);
-  const [customExerciseName, setCustomExerciseName] = useState("");
   const [selectedExercise, setSelectedExercise] = useState(null);
+
+  const sensors = useSensors(useSensor(PointerSensor));
+
+  /* =========================
+     DRAG END HANDLER
+  ========================= */
+  function handleDragEnd(event) {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+
+    setDraftWorkout((prev) => {
+      const oldIndex = prev.workout.findIndex(
+        (ex) => ex.exercise === active.id
+      );
+      const newIndex = prev.workout.findIndex(
+        (ex) => ex.exercise === over.id
+      );
+
+      return {
+        ...prev,
+        workout: arrayMove(prev.workout, oldIndex, newIndex),
+      };
+    });
+  }
 
   /* =========================
      VARIANT LOGIC
@@ -41,7 +99,8 @@ export default function StartWorkout({
       if (!Array.isArray(exercises)) return;
 
       exercises.forEach((ex) => {
-        if (ex.exercise.toLowerCase() !== exerciseName.toLowerCase()) return;
+        if (ex.exercise.toLowerCase() !== exerciseName.toLowerCase())
+          return;
         if (!Array.isArray(ex.sets)) return;
 
         ex.sets.forEach((set) => {
@@ -75,6 +134,7 @@ export default function StartWorkout({
       setLoading(true);
 
       const API_URL = import.meta.env.VITE_API_URL;
+
       const res = await fetch(`${API_URL}/get-workout`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -132,78 +192,12 @@ export default function StartWorkout({
     });
   }
 
-  function moveSet(exIndex, setIndex, direction) {
-    setDraftWorkout((prev) => {
-      const updated = [...prev.workout];
-      const sets = [...updated[exIndex].sets];
-
-      const newIndex =
-        direction === "up" ? setIndex - 1 : setIndex + 1;
-
-      if (newIndex < 0 || newIndex >= sets.length) return prev;
-
-      [sets[setIndex], sets[newIndex]] = [
-        sets[newIndex],
-        sets[setIndex],
-      ];
-
-      updated[exIndex].sets = sets;
-      return { ...prev, workout: updated };
-    });
-  }
-
   function updateSet(exIndex, setIndex, field, value) {
     setDraftWorkout((prev) => {
       const updated = [...prev.workout];
       updated[exIndex].sets[setIndex][field] = Number(value);
       return { ...prev, workout: updated };
     });
-  }
-
-  /* =========================
-     EXERCISE MANAGEMENT
-  ========================= */
-  function deleteExercise(exIndex) {
-    setDraftWorkout((prev) => ({
-      ...prev,
-      workout: prev.workout.filter((_, i) => i !== exIndex),
-    }));
-  }
-
-  function moveExercise(exIndex, direction) {
-    setDraftWorkout((prev) => {
-      const updated = [...prev.workout];
-
-      const newIndex =
-        direction === "up" ? exIndex - 1 : exIndex + 1;
-
-      if (newIndex < 0 || newIndex >= updated.length) return prev;
-
-      [updated[exIndex], updated[newIndex]] = [
-        updated[newIndex],
-        updated[exIndex],
-      ];
-
-      return { ...prev, workout: updated };
-    });
-  }
-
-  function confirmAddExercise() {
-    if (!customExerciseName.trim()) return;
-
-    setDraftWorkout((prev) => ({
-      ...prev,
-      workout: [
-        ...prev.workout,
-        {
-          exercise: customExerciseName.trim(),
-          sets: [{ reps: 10, weight: 0 }],
-        },
-      ],
-    }));
-
-    setCustomExerciseName("");
-    setAddingExercise(false);
   }
 
   /* =========================
@@ -258,121 +252,105 @@ export default function StartWorkout({
               {draftWorkout.day.toUpperCase()} Workout
             </div>
 
-            {draftWorkout.workout.map((ex, idx) => {
-              const hint = getProgressiveOverloadHint(ex.exercise);
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragEnd={handleDragEnd}
+            >
+              <SortableContext
+                items={draftWorkout.workout.map(
+                  (ex) => ex.exercise
+                )}
+                strategy={verticalListSortingStrategy}
+              >
+                {draftWorkout.workout.map((ex, idx) => {
+                  const hint = getProgressiveOverloadHint(
+                    ex.exercise
+                  );
 
-              return (
-                <div key={idx} style={{ marginBottom: 20 }}>
-                  <div style={{ display: "flex", gap: 6 }}>
-                    <strong
-                      style={{ cursor: "pointer" }}
-                      onClick={() =>
-                        setSelectedExercise(ex.exercise)
-                      }
+                  return (
+                    <SortableExercise
+                      key={ex.exercise}
+                      id={ex.exercise}
                     >
-                      {ex.exercise}
-                    </strong>
+                      <div style={{ marginBottom: 20 }}>
+                        <strong
+                          style={{
+                            cursor: "pointer",
+                            display: "block",
+                          }}
+                          onClick={() =>
+                            setSelectedExercise(ex.exercise)
+                          }
+                        >
+                          {ex.exercise}
+                        </strong>
 
-                    <button
-                      disabled={idx === 0}
-                      onClick={() => moveExercise(idx, "up")}
-                    >
-                      ⬆
-                    </button>
+                        {hint && (
+                          <div className="text-muted">
+                            🔁 Last: {hint.weight}kg ×{" "}
+                            {hint.reps}
+                          </div>
+                        )}
 
-                    <button
-                      disabled={
-                        idx === draftWorkout.workout.length - 1
-                      }
-                      onClick={() => moveExercise(idx, "down")}
-                    >
-                      ⬇
-                    </button>
+                        {ex.sets.map((set, sIdx) => (
+                          <div
+                            key={`${idx}-${sIdx}`}
+                            style={{
+                              display: "flex",
+                              gap: 8,
+                              marginTop: 6,
+                            }}
+                          >
+                            <input
+                              type="number"
+                              value={set.weight}
+                              placeholder="kg"
+                              onChange={(e) =>
+                                updateSet(
+                                  idx,
+                                  sIdx,
+                                  "weight",
+                                  e.target.value
+                                )
+                              }
+                            />
 
-                    <button onClick={() => deleteExercise(idx)}>
-                      🗑
-                    </button>
-                  </div>
+                            <input
+                              type="number"
+                              value={set.reps}
+                              placeholder="reps"
+                              onChange={(e) =>
+                                updateSet(
+                                  idx,
+                                  sIdx,
+                                  "reps",
+                                  e.target.value
+                                )
+                              }
+                            />
 
-                  {hint && (
-                    <div className="text-muted">
-                      🔁 Last: {hint.weight}kg × {hint.reps}
-                    </div>
-                  )}
+                            <button
+                              onClick={() =>
+                                deleteSet(idx, sIdx)
+                              }
+                            >
+                              ❌
+                            </button>
+                          </div>
+                        ))}
 
-                  {ex.sets.map((set, sIdx) => (
-                    <div
-                      key={`${idx}-${sIdx}`}
-                      style={{
-                        display: "flex",
-                        gap: 8,
-                        marginTop: 6,
-                      }}
-                    >
-                      <input
-                        type="number"
-                        value={set.weight}
-                        placeholder="kg"
-                        onChange={(e) =>
-                          updateSet(
-                            idx,
-                            sIdx,
-                            "weight",
-                            e.target.value
-                          )
-                        }
-                      />
-
-                      <input
-                        type="number"
-                        value={set.reps}
-                        placeholder="reps"
-                        onChange={(e) =>
-                          updateSet(
-                            idx,
-                            sIdx,
-                            "reps",
-                            e.target.value
-                          )
-                        }
-                      />
-
-                      <button
-                        disabled={sIdx === 0}
-                        onClick={() =>
-                          moveSet(idx, sIdx, "up")
-                        }
-                      >
-                        ⬆
-                      </button>
-
-                      <button
-                        disabled={
-                          sIdx === ex.sets.length - 1
-                        }
-                        onClick={() =>
-                          moveSet(idx, sIdx, "down")
-                        }
-                      >
-                        ⬇
-                      </button>
-
-                      <button
-                        onClick={() =>
-                          deleteSet(idx, sIdx)
-                        }
-                      >
-                        ❌
-                      </button>
-                    </div>
-                  ))}
-
-                  <button onClick={() => addSet(idx)}>
-                    ➕ Add Set
-                  </button>
-                </div>
-              );
-            })}
+                        <button
+                          onClick={() => addSet(idx)}
+                        >
+                          ➕ Add Set
+                        </button>
+                      </div>
+                    </SortableExercise>
+                  );
+                })}
+              </SortableContext>
+            </DndContext>
 
             <button
               className="btn-primary"
