@@ -329,6 +329,7 @@ export default function StartWorkout({
                               onClick={() =>
                                 setSelectedExercise(ex.exercise)
                               }
+                              className="exercise-title"
                               style={{
                                 flex: 1,
                                 background: "none",
@@ -337,6 +338,7 @@ export default function StartWorkout({
                                 textAlign: "left",
                                 fontWeight: "bold",
                                 cursor: "pointer",
+                              
                               }}
                             >
                               {ex.exercise}

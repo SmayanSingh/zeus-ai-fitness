@@ -549,3 +549,7 @@ textarea {
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
+
+.exercise-title {
+  color: var(--text-color);
+}
