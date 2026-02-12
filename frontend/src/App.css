@@ -3,13 +3,19 @@
 ========================= */
 
 :root {
-  --bg: #f8fafc;
+  --bg: #ffffff;
   --card-bg: #ffffff;
   --text: #0f172a;
   --muted: #64748b;
   --border: #e5e7eb;
   --primary: #2563eb;
+   --manual-bg: #ffffff;
+  --manual-border: rgba(0, 0, 0, 0.08);
+   --white: #ffffff;
+  --black: #000000;
+  --red: #E30220;
 }
+
 
 body.dark {
   --bg: #0f172a;
@@ -23,11 +29,7 @@ body.dark {
 /* =========================
    DESIGN TOKENS (KEEPING YOURS)
 ========================= */
-:root {
-  --white: #F3F4F5;
-  --black: #000000;
-  --red: #E30220;
-}
+
 
 /* 🔑 DARK MODE OVERRIDES (ONLY ADDITION) */
 body.dark {
@@ -597,13 +599,8 @@ textarea {
   transition: 0.25s ease;
 }
 
-/* =========================
-   LIGHT MODE
-========================= */
-:root {
-  --manual-bg: #ffffff;
-  --manual-border: rgba(0, 0, 0, 0.08);
-}
+
+
 
 /* =========================
    DARK MODE
