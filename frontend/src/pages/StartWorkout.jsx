@@ -52,7 +52,20 @@ export default function StartWorkout({
   const [message, setMessage] = useState(null);
   const [selectedExercise, setSelectedExercise] = useState(null);
 
+  const [addingExercise, setAddingExercise] = useState(false);
+  const [customExerciseName, setCustomExerciseName] = useState("");
+
   const sensors = useSensors(useSensor(PointerSensor));
+
+  /* =========================
+     DELETE EXERCISE
+  ========================= */
+  function deleteExercise(exIndex) {
+    setDraftWorkout((prev) => ({
+      ...prev,
+      workout: prev.workout.filter((_, i) => i !== exIndex),
+    }));
+  }
 
   /* =========================
      DRAG END HANDLER
@@ -201,6 +214,27 @@ export default function StartWorkout({
   }
 
   /* =========================
+     ADD CUSTOM EXERCISE
+  ========================= */
+  function confirmAddExercise() {
+    if (!customExerciseName.trim()) return;
+
+    setDraftWorkout((prev) => ({
+      ...prev,
+      workout: [
+        ...prev.workout,
+        {
+          exercise: customExerciseName.trim(),
+          sets: [{ reps: 10, weight: 0 }],
+        },
+      ],
+    }));
+
+    setCustomExerciseName("");
+    setAddingExercise(false);
+  }
+
+  /* =========================
      SAVE WORKOUT
   ========================= */
   async function saveWorkout() {
@@ -258,38 +292,41 @@ export default function StartWorkout({
               onDragEnd={handleDragEnd}
             >
               <SortableContext
-                items={draftWorkout.workout.map(
-                  (ex) => ex.exercise
-                )}
+                items={draftWorkout.workout.map((ex) => ex.exercise)}
                 strategy={verticalListSortingStrategy}
               >
                 {draftWorkout.workout.map((ex, idx) => {
-                  const hint = getProgressiveOverloadHint(
-                    ex.exercise
-                  );
+                  const hint = getProgressiveOverloadHint(ex.exercise);
 
                   return (
-                    <SortableExercise
-                      key={ex.exercise}
-                      id={ex.exercise}
-                    >
+                    <SortableExercise key={ex.exercise} id={ex.exercise}>
                       <div style={{ marginBottom: 20 }}>
-                        <strong
+                        <div
                           style={{
-                            cursor: "pointer",
-                            display: "block",
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
                           }}
-                          onClick={() =>
-                            setSelectedExercise(ex.exercise)
-                          }
                         >
-                          {ex.exercise}
-                        </strong>
+                          <strong
+                            style={{ cursor: "pointer" }}
+                            onClick={() =>
+                              setSelectedExercise(ex.exercise)
+                            }
+                          >
+                            {ex.exercise}
+                          </strong>
+
+                          <button
+                            onClick={() => deleteExercise(idx)}
+                          >
+                            🗑
+                          </button>
+                        </div>
 
                         {hint && (
                           <div className="text-muted">
-                            🔁 Last: {hint.weight}kg ×{" "}
-                            {hint.reps}
+                            🔁 Last: {hint.weight}kg × {hint.reps}
                           </div>
                         )}
 
@@ -340,9 +377,7 @@ export default function StartWorkout({
                           </div>
                         ))}
 
-                        <button
-                          onClick={() => addSet(idx)}
-                        >
+                        <button onClick={() => addSet(idx)}>
                           ➕ Add Set
                         </button>
                       </div>
@@ -352,9 +387,35 @@ export default function StartWorkout({
               </SortableContext>
             </DndContext>
 
+            {/* CUSTOM EXERCISE */}
+            <div style={{ marginTop: 20 }}>
+              {!addingExercise ? (
+                <button onClick={() => setAddingExercise(true)}>
+                  ➕ Add Custom Exercise
+                </button>
+              ) : (
+                <div style={{ display: "flex", gap: 8 }}>
+                  <input
+                    placeholder="Exercise name"
+                    value={customExerciseName}
+                    onChange={(e) =>
+                      setCustomExerciseName(e.target.value)
+                    }
+                  />
+                  <button onClick={confirmAddExercise}>Add</button>
+                  <button
+                    onClick={() => setAddingExercise(false)}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              )}
+            </div>
+
             <button
               className="btn-primary"
               onClick={saveWorkout}
+              style={{ marginTop: 20 }}
             >
               Save Workout
             </button>
