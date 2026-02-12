@@ -33,8 +33,8 @@ function SortableExercise({ id, children }) {
   };
 
   return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      {children}
+    <div ref={setNodeRef} style={style}>
+      {children({ attributes, listeners })}
     </div>
   );
 }
@@ -300,87 +300,98 @@ export default function StartWorkout({
 
                   return (
                     <SortableExercise key={ex.exercise} id={ex.exercise}>
-                      <div style={{ marginBottom: 20 }}>
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                          }}
-                        >
-                          <strong
-                            style={{ cursor: "pointer" }}
-                            onClick={() =>
-                              setSelectedExercise(ex.exercise)
-                            }
-                          >
-                            {ex.exercise}
-                          </strong>
-
-                          <button
-                            onClick={() => deleteExercise(idx)}
-                          >
-                            🗑
-                          </button>
-                        </div>
-
-                        {hint && (
-                          <div className="text-muted">
-                            🔁 Last: {hint.weight}kg × {hint.reps}
-                          </div>
-                        )}
-
-                        {ex.sets.map((set, sIdx) => (
+                      {({ attributes, listeners }) => (
+                        <div style={{ marginBottom: 20 }}>
                           <div
-                            key={`${idx}-${sIdx}`}
                             style={{
                               display: "flex",
-                              gap: 8,
-                              marginTop: 6,
+                              justifyContent: "space-between",
+                              alignItems: "center",
+                              gap: 8
                             }}
                           >
-                            <input
-                              type="number"
-                              value={set.weight}
-                              placeholder="kg"
-                              onChange={(e) =>
-                                updateSet(
-                                  idx,
-                                  sIdx,
-                                  "weight",
-                                  e.target.value
-                                )
-                              }
-                            />
-
-                            <input
-                              type="number"
-                              value={set.reps}
-                              placeholder="reps"
-                              onChange={(e) =>
-                                updateSet(
-                                  idx,
-                                  sIdx,
-                                  "reps",
-                                  e.target.value
-                                )
-                              }
-                            />
-
-                            <button
-                              onClick={() =>
-                                deleteSet(idx, sIdx)
-                              }
+                            <div
+                              {...attributes}
+                              {...listeners}
+                              style={{
+                                cursor: "grab",
+                                padding: "4px 8px",
+                                background: "#222",
+                                borderRadius: "6px"
+                              }}
                             >
-                              ❌
+                              ☰
+                            </div>
+
+                            <strong
+                              style={{ flex: 1, cursor: "pointer" }}
+                              onClick={() => setSelectedExercise(ex.exercise)}
+                            >
+                              {ex.exercise}
+                            </strong>
+
+                            <button onClick={() => deleteExercise(idx)}>
+                              🗑
                             </button>
                           </div>
-                        ))}
 
-                        <button onClick={() => addSet(idx)}>
-                          ➕ Add Set
-                        </button>
-                      </div>
+                          {hint && (
+                            <div className="text-muted">
+                              🔁 Last: {hint.weight}kg × {hint.reps}
+                            </div>
+                          )}
+
+                          {ex.sets.map((set, sIdx) => (
+                            <div
+                              key={`${idx}-${sIdx}`}
+                              style={{
+                                display: "flex",
+                                gap: 8,
+                                marginTop: 6,
+                              }}
+                            >
+                              <input
+                                type="number"
+                                value={set.weight}
+                                placeholder="kg"
+                                onChange={(e) =>
+                                  updateSet(
+                                    idx,
+                                    sIdx,
+                                    "weight",
+                                    e.target.value
+                                  )
+                                }
+                              />
+
+                              <input
+                                type="number"
+                                value={set.reps}
+                                placeholder="reps"
+                                onChange={(e) =>
+                                  updateSet(
+                                    idx,
+                                    sIdx,
+                                    "reps",
+                                    e.target.value
+                                  )
+                                }
+                              />
+
+                              <button
+                                onClick={() =>
+                                  deleteSet(idx, sIdx)
+                                }
+                              >
+                                ❌
+                              </button>
+                            </div>
+                          ))}
+
+                          <button onClick={() => addSet(idx)}>
+                            ➕ Add Set
+                          </button>
+                        </div>
                     </SortableExercise>
                   );
                 })}
