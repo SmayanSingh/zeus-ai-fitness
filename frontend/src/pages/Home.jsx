@@ -72,33 +72,33 @@ export default function Home({ user, profile, statsVersion }) {
   if (!user) {
     return (
       <div className="auth-wrapper">
-      <div className="card auth-card">
-        <h2>Zeus Fitness</h2>
+        <div className="card auth-card">
+          <h2>Zeus Fitness</h2>
 
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
-        <button className="btn-primary" onClick={signIn} disabled={loading}>
-          Sign In
-        </button>
+          <button className="btn-primary" onClick={signIn} disabled={loading}>
+            Sign In
+          </button>
 
-        <button className="btn-primary" onClick={signUp} disabled={loading}>
-          Sign Up
-        </button>
+          <button className="btn-primary" onClick={signUp} disabled={loading}>
+            Sign Up(new user)
+          </button>
 
-        {message && <p className="text-muted">{message}</p>}
-      </div>
+          {message && <p className="text-muted">{message}</p>}
+        </div>
       </div>
     );
   }
@@ -122,7 +122,7 @@ export default function Home({ user, profile, statsVersion }) {
           <div className="streak-container">
             {/* <span className="streak-fire-wrapper"> */}
             <span className="streak-fire">🔥</span>
-            
+
             <span className="streak-count">
               {streak} day{streak === 1 ? "" : "s"}
             </span>
@@ -135,28 +135,44 @@ export default function Home({ user, profile, statsVersion }) {
 
         <div className="card minimal-manual">
           <div className="manual-header">
-            <h3>Getting Started</h3>
+            <h3>Train Smarter. Train Elite.</h3>
+            <p className="manual-subtitle">
+              Built for precision. Designed for progression.
+            </p>
           </div>
 
           <div className="manual-steps">
             <div className="manual-step">
-              <span className="step-number">1</span>
-              <p>
-                Go to <strong>Workout</strong> and generate your AI workout.
-              </p>
+              <span className="step-number">01</span>
+              <div>
+                <h4>Generate</h4>
+                <p>
+                  Go to <strong>Start Workout</strong> and let Zeus build your session
+                  instantly.
+                </p>
+              </div>
             </div>
 
             <div className="manual-step">
-              <span className="step-number">2</span>
-              <p>Log weights and reps after completing exercises.</p>
+              <span className="step-number">02</span>
+              <div>
+                <h4>Refine</h4>
+                <p>
+                  Add custom exercises, adjust sets, reorder movements with drag and
+                  drop, and tailor the workout to your standard.
+                </p>
+              </div>
             </div>
 
             <div className="manual-step">
-              <span className="step-number">3</span>
-              <p>
-                Track progress in <strong>History</strong> and upcoming{" "}
-                <strong>Stats</strong>.
-              </p>
+              <span className="step-number">03</span>
+              <div>
+                <h4>Execute & Track</h4>
+                <p>
+                  Save your workout and monitor progress inside{" "}
+                  <strong>History</strong>. Every session compounds.
+                </p>
+              </div>
             </div>
           </div>
         </div>

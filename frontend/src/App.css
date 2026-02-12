@@ -375,45 +375,7 @@ textarea {
   margin-bottom: 12px;
 }
 
-.minimal-manual {
-  padding: 18px;
-}
 
-.manual-header h3 {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 14px;
-}
-
-.manual-steps {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.manual-step {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-}
-
-.step-number {
-  width: 22px;
-  height: 22px;
-  border-radius: 6px;
-  background: rgba(255,255,255,0.08);
-  font-size: 12px;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.manual-step p {
-  margin: 0;
-  font-size: 14px;
-  opacity: 0.9;
-}
 
 /* =========================
    STREAK FIRE ANIMATION
@@ -552,4 +514,101 @@ textarea {
 
 .exercise-title {
   color: var(--text-color);
+}
+
+/* =========================
+   ELITE MANUAL CARD
+========================= */
+
+.minimal-manual {
+  padding: 28px;
+  border-radius: 18px;
+  background: var(--manual-bg);
+  border: 1px solid var(--manual-border);
+  transition: 0.3s ease;
+}
+
+.manual-header h3 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+
+.manual-subtitle {
+  font-size: 14px;
+  opacity: 0.7;
+  margin-bottom: 24px;
+}
+
+/* Steps Layout */
+
+.manual-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.manual-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+}
+
+/* Step Number */
+
+.step-number {
+  font-size: 14px;
+  font-weight: 600;
+  min-width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 0, 60, 0.9),
+    rgba(200, 0, 40, 0.9)
+  );
+  color: white;
+  letter-spacing: 1px;
+}
+
+/* Step Content */
+
+.manual-step h4 {
+  margin: 0 0 4px 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.manual-step p {
+  margin: 0;
+  font-size: 14px;
+  opacity: 0.75;
+  line-height: 1.5;
+}
+
+/* Subtle Hover Effect */
+
+.manual-step:hover {
+  transform: translateX(4px);
+  transition: 0.25s ease;
+}
+
+/* =========================
+   LIGHT MODE
+========================= */
+:root {
+  --manual-bg: #ffffff;
+  --manual-border: rgba(0, 0, 0, 0.08);
+}
+
+/* =========================
+   DARK MODE
+========================= */
+.dark {
+  --manual-bg: #111827;
+  --manual-border: rgba(255, 255, 255, 0.08);
 }
