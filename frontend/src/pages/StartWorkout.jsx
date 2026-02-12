@@ -76,10 +76,11 @@ export default function StartWorkout({
 
     setDraftWorkout((prev) => {
       const oldIndex = prev.workout.findIndex(
-        (ex) => ex.exercise === active.id
+        (ex, i) => `${ex.exercise}-${i}` === active.id
       );
+
       const newIndex = prev.workout.findIndex(
-        (ex) => ex.exercise === over.id
+        (ex, i) => `${ex.exercise}-${i}` === over.id
       );
 
       return {
@@ -251,9 +252,6 @@ export default function StartWorkout({
     setMessage("Workout saved ✅");
   }
 
-  /* =========================
-     UI
-  ========================= */
   return (
     <>
       {message && <div className="card">{message}</div>}
@@ -292,14 +290,17 @@ export default function StartWorkout({
               onDragEnd={handleDragEnd}
             >
               <SortableContext
-                items={draftWorkout.workout.map((ex) => ex.exercise)}
+                items={draftWorkout.workout.map(
+                  (ex, idx) => `${ex.exercise}-${idx}`
+                )}
                 strategy={verticalListSortingStrategy}
               >
                 {draftWorkout.workout.map((ex, idx) => {
                   const hint = getProgressiveOverloadHint(ex.exercise);
+                  const uniqueId = `${ex.exercise}-${idx}`;
 
                   return (
-                    <SortableExercise key={ex.exercise} id={ex.exercise}>
+                    <SortableExercise key={uniqueId} id={uniqueId}>
                       {({ attributes, listeners }) => (
                         <div style={{ marginBottom: 20 }}>
                           <div
@@ -307,7 +308,7 @@ export default function StartWorkout({
                               display: "flex",
                               justifyContent: "space-between",
                               alignItems: "center",
-                              gap: 8
+                              gap: 8,
                             }}
                           >
                             <div
@@ -317,20 +318,34 @@ export default function StartWorkout({
                                 cursor: "grab",
                                 padding: "4px 8px",
                                 background: "#222",
-                                borderRadius: "6px"
+                                borderRadius: "6px",
                               }}
                             >
                               ☰
                             </div>
 
-                            <strong
-                              style={{ flex: 1, cursor: "pointer" }}
-                              onClick={() => setSelectedExercise(ex.exercise)}
+                            <button
+                              type="button"
+                              onClick={() =>
+                                setSelectedExercise(ex.exercise)
+                              }
+                              style={{
+                                flex: 1,
+                                background: "none",
+                                border: "none",
+                                padding: 0,
+                                textAlign: "left",
+                                fontWeight: "bold",
+                                cursor: "pointer",
+                              }}
                             >
                               {ex.exercise}
-                            </strong>
+                            </button>
 
-                            <button onClick={() => deleteExercise(idx)}>
+                            <button
+                              type="button"
+                              onClick={() => deleteExercise(idx)}
+                            >
                               🗑
                             </button>
                           </div>
@@ -355,12 +370,7 @@ export default function StartWorkout({
                                 value={set.weight}
                                 placeholder="kg"
                                 onChange={(e) =>
-                                  updateSet(
-                                    idx,
-                                    sIdx,
-                                    "weight",
-                                    e.target.value
-                                  )
+                                  updateSet(idx, sIdx, "weight", e.target.value)
                                 }
                               />
 
@@ -369,36 +379,30 @@ export default function StartWorkout({
                                 value={set.reps}
                                 placeholder="reps"
                                 onChange={(e) =>
-                                  updateSet(
-                                    idx,
-                                    sIdx,
-                                    "reps",
-                                    e.target.value
-                                  )
+                                  updateSet(idx, sIdx, "reps", e.target.value)
                                 }
                               />
 
                               <button
-                                onClick={() =>
-                                  deleteSet(idx, sIdx)
-                                }
+                                type="button"
+                                onClick={() => deleteSet(idx, sIdx)}
                               >
                                 ❌
                               </button>
                             </div>
                           ))}
 
-                          <button onClick={() => addSet(idx)}>
+                          <button type="button" onClick={() => addSet(idx)}>
                             ➕ Add Set
                           </button>
                         </div>
+                      )}
                     </SortableExercise>
                   );
                 })}
               </SortableContext>
             </DndContext>
 
-            {/* CUSTOM EXERCISE */}
             <div style={{ marginTop: 20 }}>
               {!addingExercise ? (
                 <button onClick={() => setAddingExercise(true)}>
@@ -414,9 +418,7 @@ export default function StartWorkout({
                     }
                   />
                   <button onClick={confirmAddExercise}>Add</button>
-                  <button
-                    onClick={() => setAddingExercise(false)}
-                  >
+                  <button onClick={() => setAddingExercise(false)}>
                     Cancel
                   </button>
                 </div>
